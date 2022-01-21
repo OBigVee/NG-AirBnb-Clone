@@ -14,9 +14,7 @@ class ConComand(cmd.Cmd):
 
     def __init__(self, completekey: str = "tab", stdin = None, stdout = None) :
         super().__init__(completekey, stdin, stdout)
-    # def cmdloop(self, intro)
-    # cmdloop
-
+    
     def do_greet(self, line):
         """display interactive intro"""
         print(intro)
