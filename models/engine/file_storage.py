@@ -3,6 +3,7 @@
 """FileStorage class serializes instances to a JSON file and deserializes JSON file to instances"""
 import json 
 from models.base_model import BaseModel
+
 class FileStorage:
     """
     Performs serialization and deserialization functionarity.
@@ -39,17 +40,18 @@ class FileStorage:
         (only if the JSON file (__file_path)) exists; otherwise, do nothing.
         If the file doesn't exist, no exception should be raised)"""
 
-        # try:
-        #     with open(self.__file_path) as file_obj:
-        #         obj_dict = json.load(file_obj)
-        #         for  obj in obj_dict.values():
-        #             cls_name = o["__class__"]
-        #             del obj["__class__"]
-        #             self.new(eval(cls_name)(**obj))
-        # except FileNotFoundError:
-        #     return 
-        if self.__file_path != "":
-            with open(self.__file_path) as file_obj:
+        try:
+            with open(self.__file_path, "r") as file_obj:
                 obj_dict = json.load(file_obj)
+                for  obj in obj_dict.values():
+                    cls_name = obj["__class__"]
+                    del obj["__class__"]
+                    self.new(eval(cls_name)(**obj))
+        except FileNotFoundError:
+            pass 
+        
+        # if self.__file_path != "":
+        #     with open(self.__file_path, 'r') as file_obj:
+        #         obj_dict = json.load(file_obj)
 
 

@@ -3,7 +3,7 @@
 import uuid
 import datetime
 from datetime import date
-from models import storage
+#from models import storage
 
 class BaseModel:
 
@@ -14,13 +14,16 @@ class BaseModel:
         self.created_at = datetime.now()
         self.updated_at = datetime.today()
 
+        from models import storage
         if kwargs != None:
             for k,v in kwargs.items():
-                if k == "created_at" | k == "update_at":
+                if k == "created_at" | k == "updated_at":
                     self.__dict__[k] = datetime.strptime(v, self.timeFormat)
                 else:
                     storage.new(self)
-
+        else:
+            self.id:str = str(uuid.uuid4())
+            self.created_at = datetime.now()
 
 
         
@@ -41,3 +44,5 @@ class BaseModel:
         obj["updated_at"] = self.updated_at.isoformatt()
         obj["__class__"] = self.__class__.__name__
         return obj
+
+
